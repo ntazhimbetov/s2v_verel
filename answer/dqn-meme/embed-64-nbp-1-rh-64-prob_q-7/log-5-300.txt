@@ -1,0 +1,23 @@
+mem_size = 500000
+num_env = 1
+n_step = 5
+min_n = 5
+max_n = 300
+max_iter = 1000000
+dev_id = 0
+max_bp_iter = 1
+batch_size = 64
+embed_dim = 64
+learning_rate = 0.0001
+w_scale = 0.01
+l2_penalty = 0
+momentum = 0.9
+Traceback (most recent call last):
+  File "wmain.py", line 42, in <module>
+    api.lib.SetSign(1)
+  File "/usr/lib64/python2.7/ctypes/__init__.py", line 373, in __getattr__
+    func = self.__getitem__(name)
+  File "/usr/lib64/python2.7/ctypes/__init__.py", line 378, in __getitem__
+    func = self._FuncPtr((name_or_ordinal, self))
+AttributeError: /home/nurbek/graph_comb_opt/code/s2v_verel/verel_lib/build/dll/\
+libverel.so: undefined symbol: SetSign
