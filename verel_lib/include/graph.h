@@ -15,6 +15,8 @@ class Graph
   int num_edges;
   std::vector< std::vector< int > > adj_list;
   std::vector< std::pair<int, int> > edge_list;
+  std::vector< std::vector< int> > adj_list_modified;
+  std::vector< std::pair<int, int> > edge_list_modified;
 };
 
 class GSet

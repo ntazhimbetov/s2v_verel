@@ -55,6 +55,7 @@ int Init(const int argc, const char** argv)
   list_pred.resize(cfg::batch_size);
   for (int i = 0; i < cfg::batch_size; ++i)
     list_pred[i] = new std::vector<double>(cfg::max_n + 10);
+
   return 0;
 }
 
@@ -68,9 +69,13 @@ int InsertGraph(bool isTest, const int g_id, const int num_nodes, const int num_
 {
   auto g = std::make_shared<Graph>(num_nodes, num_edges, edges_from, edges_to);
   if (isTest)
+  {
     GSetTest.InsertGraph(g_id, g);
+  }
   else
+  {
     GSetTrain.InsertGraph(g_id, g);
+  }
   return 0;
 }
 
@@ -134,6 +139,8 @@ double Test(const int gid)
 	new_action = (test_env->graph->num_nodes - 1)*test_env->graph->num_nodes / 2 - sum_extra;
 	std::cout << new_action << " ";
 	test_env->step(new_action);
+	test_env->graph->adj_list_modified = test_env->graph->adj_list;
+	test_env->graph->edge_list_modified = test_env->graph->edge_list;
 	break;
       }
       Predict(g_list, states, list_pred);

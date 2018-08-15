@@ -52,6 +52,7 @@ if __name__ == '__main__':
             frac = api.lib.Test(0)
             print 'iter', iter, 'lr', lr, 'eps', eps, 'average number of new edges: ', frac
             sys.stdout.flush()
+
 #            model_path = '%s/%s_iter_%d.model' % (opt['save_dir'], opt['sample_name'], iter)
 #            api.SaveModel(model_path)
 

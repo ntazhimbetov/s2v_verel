@@ -108,7 +108,7 @@ int QNet::GetStatusInfo(std::shared_ptr<Graph> g, int num, const int* covered, i
     c.insert(covered[i]);            
   counter = 0; 
   int n = 0;
-  for (auto& p : g->edge_list)
+  for (auto& p : g->edge_list_modified)
     {
       if (c.count(p.first) || c.count(p.second))
         {
@@ -145,8 +145,8 @@ void QNet::SetupGraphInput(std::vector<int>& idxes,
 	aux_ptr[0] = (Dtype)covered[idxes[i]]->size() / (Dtype)g->num_nodes;
 
       avail_act_cnt[i] = GetStatusInfo(g, covered[idxes[i]]->size(), covered[idxes[i]]->data(), counter, idx_map_list[i]);
-      if (g->edge_list.size())
-	aux_ptr[1] = (Dtype)counter / (Dtype)g->edge_list.size();
+      if (g->edge_list_modified.size())
+	aux_ptr[1] = (Dtype)counter / (Dtype)g->edge_list_modified.size();
 
       aux_ptr[2] = 1.0;
       node_cnt += avail_act_cnt[i];
@@ -197,7 +197,7 @@ void QNet::SetupGraphInput(std::vector<int>& idxes,
 	  act_select.data->val[i] = 1.0;
 	  act_select.data->col_idx[i] = node_cnt + idx_map[act];
         }
-      for (auto& p : g->edge_list)
+      for (auto& p : g->edge_list_modified)
         {
 	  if (idx_map[p.first] < 0 || idx_map[p.second] < 0)
 	    continue;

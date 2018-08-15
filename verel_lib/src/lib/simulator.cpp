@@ -28,7 +28,15 @@ void Simulator::Init(int num_env)
 
 void Simulator::run_simulator(int num_seq, double eps)
 {
-  int num_env = env_list.size();    
+  int num_env = env_list.size();
+
+
+  for (int i = 0; i < num_env; ++i)
+  {
+    auto & graph = env_list[i]->graph;
+  }
+
+
   int n = 0;
   while (n < num_seq)
     {
@@ -40,9 +48,13 @@ void Simulator::run_simulator(int num_seq, double eps)
                 {
 		  n++;
 		  NStepReplayMem::Add(env_list[i]);
+
+	  auto & graph = env_list[i]->graph;
+	graph->adj_list_modified = graph->adj_list;
+	graph->edge_list_modified = graph->edge_list;
                 }
 	      env_list[i]->s0(GSetTrain.Sample());
-	      g_list[i] = env_list[i]->graph;
+     	      g_list[i] = env_list[i]->graph;
 	      covered[i] = &(env_list[i]->action_list);
             }
         }
@@ -66,6 +78,8 @@ void Simulator::run_simulator(int num_seq, double eps)
 	  env_list[i]->step(a_t);            
         }
     }
+
+
 }
 
 int arg_max(int n, const double* scores)

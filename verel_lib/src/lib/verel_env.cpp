@@ -73,37 +73,37 @@ double VerelEnv::eliminate_node(int new_node) {
   
   int num_new_edges = 0;
 
-  while(graph->adj_list[new_node].empty() == false) {
-    int neigh1_val = graph->adj_list[new_node].back();
+  while(graph->adj_list_modified[new_node].empty() == false) {
+    int neigh1_val = graph->adj_list_modified[new_node].back();
     
     // deleting from the dajacency list from both copies
-    graph->adj_list[new_node].pop_back();
-    auto it = std::find(graph->adj_list[neigh1_val].begin(),
-		    graph->adj_list[neigh1_val].end(),
+    graph->adj_list_modified[new_node].pop_back();
+    auto it = std::find(graph->adj_list_modified[neigh1_val].begin(),
+		    graph->adj_list_modified[neigh1_val].end(),
 		    new_node);
-    graph->adj_list[neigh1_val].erase(it);
+    graph->adj_list_modified[neigh1_val].erase(it);
 
     // extra
-    for (auto i = 0; i < graph->edge_list.size(); ++i) {
-      if ((std::get<0>(graph->edge_list[i]) == new_node && std::get<1>(graph->edge_list[i]) == neigh1_val) 
-	  || (std::get<0>(graph->edge_list[i]) == neigh1_val && std::get<1>(graph->edge_list[i]) == new_node)) {
-	graph->edge_list.erase(graph->edge_list.begin() + i);
+    for (auto i = 0; i < graph->edge_list_modified.size(); ++i) {
+      if ((std::get<0>(graph->edge_list_modified[i]) == new_node && std::get<1>(graph->edge_list_modified[i]) == neigh1_val) 
+	  || (std::get<0>(graph->edge_list_modified[i]) == neigh1_val && std::get<1>(graph->edge_list_modified[i]) == new_node)) {
+	graph->edge_list_modified.erase(graph->edge_list_modified.begin() + i);
 	i--;
       }
     }
 
     // updating the adjacency list and adding new edges
-    for (auto& neigh2_val : graph->adj_list[new_node]) {
-      if (std::find(graph->adj_list[neigh2_val].begin(),
-		    graph->adj_list[neigh2_val].end(),
-		    neigh1_val) == graph->adj_list[neigh2_val].end()) {
+    for (auto& neigh2_val : graph->adj_list_modified[new_node]) {
+      if (std::find(graph->adj_list_modified[neigh2_val].begin(),
+		    graph->adj_list_modified[neigh2_val].end(),
+		    neigh1_val) == graph->adj_list_modified[neigh2_val].end()) {
 	num_new_edges += 1;
-	graph->adj_list[neigh2_val].push_back(neigh1_val);
-	graph->adj_list[neigh1_val].push_back(neigh2_val);
+	graph->adj_list_modified[neigh2_val].push_back(neigh1_val);
+	graph->adj_list_modified[neigh1_val].push_back(neigh2_val);
 
 	// extra
-	graph->edge_list.push_back(std::make_pair(neigh1_val, neigh2_val));
-	graph->edge_list.push_back(std::make_pair(neigh2_val, neigh1_val));
+	graph->edge_list_modified.push_back(std::make_pair(neigh1_val, neigh2_val));
+	graph->edge_list_modified.push_back(std::make_pair(neigh2_val, neigh1_val));
       }
     }
   }
